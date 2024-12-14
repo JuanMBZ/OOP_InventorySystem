@@ -4,9 +4,12 @@
  */
 package userinterface;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import operation.*;
-import products.*;
 
 /**
  *
@@ -15,14 +18,24 @@ import products.*;
 public class InventoryDisplay extends javax.swing.JFrame {
     private String[] Test = {"A", "b", "c", "d", "e", "f", "g"};
     private ArraysDataStruct productList;
+    TableRowSorter<TableModel> sorter;
     
-    DefaultTableModel defaultModel = new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
+    DefaultTableModel inventoryTableModel = new DefaultTableModel(new Object [][] {},
+        new String [] { //Column Titles
             "Brand", "Device Type", "Model", "Price(₱)", "Quantity", "Status", "ReferenceNo."
-        }
-    );
+        }) 
+        {       
+            public Class getColumnClass(int column) {   //Specify the column class to use for sorting, etc.
+                switch(column) {
+                    case 4: case 6:     // "Model", "Qty", RefNo" class is integer
+                        return Integer.class;
+                    case 3:     //"Price" class is double
+                        return Double.class;
+                    default:    //Everything else is string
+                        return String.class;
+                }
+            }
+        };
     /**
      * Creates new form inventoryDisplay
      */
@@ -30,6 +43,8 @@ public class InventoryDisplay extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 initComponents();
+                formatTable();
+                //setRowFilter("(Cellphone)");
             }
         });
         this.productList = productList;
@@ -38,10 +53,32 @@ public class InventoryDisplay extends javax.swing.JFrame {
     public void addTableRow(Object objArr[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                defaultModel.addRow(objArr);
+                inventoryTableModel.addRow(objArr);
             }
         });
     }
+    
+    public void formatTable() {
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+        for(int i=0; i<inventoryTable.getColumnCount(); i++) {     //make all cells left aligned
+            inventoryTable.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
+        }
+        sorter = new TableRowSorter<>(inventoryTableModel);
+        inventoryTable.setRowSorter(sorter);
+    }
+    
+    private void setRowFilter(String regexFilter, int column) {//Finifilter out yung  string regex sa column na input
+        RowFilter<TableModel, Object> rf = null;
+        //If current expression doesn't parse, don't update.
+        try {
+            rf = RowFilter.regexFilter(regexFilter, 1);
+        } catch (java.util.regex.PatternSyntaxException e) {
+            return;
+        }
+        sorter.setRowFilter(rf);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,10 +87,14 @@ public class InventoryDisplay extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        inventoryTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        deviceFilterTextF = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventory List");
@@ -63,21 +104,53 @@ public class InventoryDisplay extends javax.swing.JFrame {
         jPanel1.setRequestFocusEnabled(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 600));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(700, 400));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable1.setModel(defaultModel);
-        jTable1.setPreferredSize(new java.awt.Dimension(700, 350));
-        jTable1.setShowGrid(true);
-        jScrollPane1.setViewportView(jTable1);
+        inventoryTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inventoryTable.setModel(inventoryTableModel);
+        inventoryTable.setPreferredSize(new java.awt.Dimension(700, 350));
+        inventoryTable.setShowGrid(true);
+        jScrollPane1.setViewportView(inventoryTable);
 
-        jPanel1.add(jScrollPane1, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        jPanel1.add(jScrollPane1, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setText("Filter By Device Type:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 3, 5);
+        jPanel2.add(jLabel1, gridBagConstraints);
+
+        deviceFilterTextF.setToolTipText("");
+        deviceFilterTextF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deviceFilterTextFActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 7, 7, 5);
+        jPanel2.add(deviceFilterTextF, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel1.add(jPanel2, gridBagConstraints);
 
         getContentPane().add(jPanel1);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void deviceFilterTextFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deviceFilterTextFActionPerformed
+        setRowFilter("(" + deviceFilterTextF.getText() + ")", 1);
+    }//GEN-LAST:event_deviceFilterTextFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,8 +189,11 @@ public class InventoryDisplay extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField deviceFilterTextF;
+    private javax.swing.JTable inventoryTable;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
