@@ -107,7 +107,4 @@ public class Features {
         Arrays.sort(productList.getList(), new SortbyDeviceType());
     }
     
-    public void saveToTextFile() {
-        
-    }
 }

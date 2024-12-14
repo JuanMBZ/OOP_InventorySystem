@@ -10,7 +10,7 @@ public class Product {
     private String deviceType = "";
     private int refNum = 0;
     private int currentQuantity = 0; //quantity after sold decrement each time
-    private Object objArr[] = new Object[7];    //para mapasa sa gui
+    private Object objArr[];    //para mapasa sa gui
 
     public Product(String brand, String deviceType, String model, double price, 
 		int quantity, String status, int refNum) {
@@ -22,6 +22,7 @@ public class Product {
         this.status = status;
         this.refNum = refNum;
         //For object array
+        objArr = new Object[7];
         objArr[0] = brand;
         objArr[1] = deviceType;
         objArr[2] = model;
@@ -30,7 +31,17 @@ public class Product {
         objArr[5] = status;
         objArr[6] = refNum;
     }
-
+    
+    public Product(Object objArr[]) {   //Constructor para sa user input sa GUI
+        brand = (String)objArr[0];
+        deviceType = (String)objArr[1];
+        model = (String)objArr[2];
+        price = (double)objArr[3];
+        quantity = (int)objArr[4];
+        status = (String)objArr[5];
+        refNum = (int)objArr[6];
+        this.objArr = objArr;
+    }
 
     public String getProduct() {
         return
