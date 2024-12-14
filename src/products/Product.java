@@ -1,73 +1,76 @@
 package products;
 
-public class Product{
-    //attributes
-    private String productType = "";
+
+public class Product {
     private String brand = "";
     private String model = "";
     private double price = 0.0;
-    private int traceNum = 0;
-    private int countStock = 0;
-    private String status = "";
+    private int quantity = 0; // all quantity
+    private String status= "";
+    private String deviceType = "";
+    private int refNum = 0;
+    private int currentQuantity = 0; //quantity after sold decrement each time
+    private Object objArr[] = new Object[7];    //para mapasa sa gui
 
-    // constructor
-    public Product(){
-
-    }
-    public Product(String productType, String brand, String model, 
-     double price, int traceNum, int countStock, String status) {
-        this.productType = productType;
+    public Product(String brand, String deviceType, String model, double price, 
+		int quantity, String status, int refNum) {
         this.brand = brand;
+        this.deviceType = deviceType;
         this.model = model;
         this.price = price;
-        this.traceNum = traceNum;
-        this.countStock = countStock;
+        this.quantity = quantity;
+        this.status = status;
+        this.refNum = refNum;
+        //For object array
+        objArr[0] = brand;
+        objArr[1] = deviceType;
+        objArr[2] = model;
+        objArr[3] = price;
+        objArr[4] = quantity;
+        objArr[5] = status;
+        objArr[6] = refNum;
+    }
+
+
+    public String getProduct() {
+        return
+            "\nDevice Type: " + deviceType +
+            " Reference Number: " + refNum +
+            "\nBrand: " + brand +
+            " Model: " + model +
+            "\nPrice" + price +
+            " Quantity: " + quantity +
+            " Status: " + status ;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
-
-    // getters setters
-    
-    public void setProductType(String productType) { 
-        this.productType = productType; 
-    }
-    public void setBrand(String brand) { 
-        this.brand = brand; 
-    }
-    public void setModel(String model) { 
-        this.model = model; 
-    }
-    public void setPrice(double price) {
-         this.price = price; 
-    }
-    public void setTraceNum(int traceNum) {
-         this.traceNum = traceNum;
-    }
-    public void setCountStock(int countStock) {
-         this.countStock = countStock; 
-    }
-    public void setStatus(String status) { 
-        this.status = status; 
+    public void setCurrentQuantity(int soldQty) {
+        this.currentQuantity = this.quantity - soldQty;
     }
 
-    public String getProductType() { 
-        return productType; 
-    }
-    public String getBrand() { 
-        return brand; 
-    }
-    public String getModel() { 
-        return model;
+
+    public int getQuantity() {
+        return quantity;
     }
     public double getPrice() {
-         return price; 
+        return price;
     }
-    public int getTraceNum() { 
-        return traceNum;
-     }
-    public int getCountStock() { 
-        return countStock; 
+    public String getModel() {
+        return model;
     }
-    public String getStatus() { 
-        return status; 
+    public String getDeviceType(){
+	    return deviceType;
+    }
+    public int getRefNum(){
+	    return refNum;
+    }
+    public int getCurrentQuantity(){
+	    return quantity - currentQuantity;
+    }
+    
+    public Object[] getObjArr() {
+        return objArr;
     }
 }

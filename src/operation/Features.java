@@ -1,12 +1,15 @@
+package operation;
 
 import java.util.Arrays;
+import products.*;
+import userinterface.*;
 
-class Features {
+public class Features {
     private ArraysDataStruct productList;
     private final int STOCKMIN = 10; // adjust when necessary
 
-    Features() {
-        productList = new ArraysDataStruct();
+    public Features(ArraysDataStruct productList) {
+        this.productList = productList;
     }
 
     public void addProduct(String brand, String deviceType, String model, 
@@ -102,5 +105,9 @@ class Features {
     
     public void sortProductsByDeviceType() {
         Arrays.sort(productList.getList(), new SortbyDeviceType());
+    }
+    
+    public void saveToTextFile() {
+        
     }
 }

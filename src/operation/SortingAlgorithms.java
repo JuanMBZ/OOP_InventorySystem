@@ -1,5 +1,7 @@
+package operation;
 
 import java.util.Comparator;
+import products.*;
 
 
 class SortbyRefNo implements Comparator<Product> {  //Used for sorting products by refno
@@ -18,9 +20,9 @@ class SortbyDeviceType implements Comparator<Product> {  //Used for sorting prod
     }
 }
 
-class SortingAlgorithms extends ArraysDataStruct {
+public class SortingAlgorithms extends ArraysDataStruct {
 
-    SortingAlgorithms() {
+    public SortingAlgorithms() {
         super();
     }
 
