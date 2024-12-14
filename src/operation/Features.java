@@ -1,11 +1,13 @@
+package operation;
 
 import java.util.Arrays;
+import products.*;
 
-class Features {
+public class Features {
     private ArraysDataStruct productList;
     private final int STOCKMIN = 10; // adjust when necessary
 
-    Features() {
+    public Features() {
         productList = new ArraysDataStruct();
     }
 
@@ -102,5 +104,9 @@ class Features {
     
     public void sortProductsByDeviceType() {
         Arrays.sort(productList.getList(), new SortbyDeviceType());
+    }
+    
+    public void saveToTextFile() {
+        
     }
 }
