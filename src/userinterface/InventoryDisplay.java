@@ -72,7 +72,7 @@ public class InventoryDisplay extends javax.swing.JFrame {
         RowFilter<TableModel, Object> rf = null;
         //If current expression doesn't parse, don't update.
         try {
-            rf = RowFilter.regexFilter(regexFilter, 1);
+            rf = RowFilter.regexFilter(regexFilter, column);
         } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }
@@ -92,9 +92,17 @@ public class InventoryDisplay extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         inventoryTable = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        userOptions = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        deviceFilterLabel = new javax.swing.JLabel();
         deviceFilterTextF = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        brandFilterLabel = new javax.swing.JLabel();
+        brandFilterTextF = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        addLabel = new javax.swing.JLabel();
+        addButton = new javax.swing.JButton();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventory List");
@@ -116,12 +124,15 @@ public class InventoryDisplay extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        userOptions.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Filter By Device Type:");
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        deviceFilterLabel.setText("Filter By Device Type:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 7, 3, 5);
-        jPanel2.add(jLabel1, gridBagConstraints);
+        jPanel3.add(deviceFilterLabel, gridBagConstraints);
 
         deviceFilterTextF.setToolTipText("");
         deviceFilterTextF.addActionListener(new java.awt.event.ActionListener() {
@@ -135,12 +146,71 @@ public class InventoryDisplay extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(3, 7, 7, 5);
-        jPanel2.add(deviceFilterTextF, gridBagConstraints);
+        jPanel3.add(deviceFilterTextF, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 6, 5);
+        userOptions.add(jPanel3, gridBagConstraints);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setPreferredSize(new java.awt.Dimension(125, 56));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        brandFilterLabel.setText("Filter By Brand:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 7, 3, 5);
+        jPanel2.add(brandFilterLabel, gridBagConstraints);
+
+        brandFilterTextF.setToolTipText("");
+        brandFilterTextF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brandFilterTextFActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 7, 7, 5);
+        jPanel2.add(brandFilterTextF, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 6, 5);
+        userOptions.add(jPanel2, gridBagConstraints);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        addLabel.setText("Add a new Product to Inventory");
+        jPanel4.add(addLabel, new java.awt.GridBagConstraints());
+
+        addButton.setText("Add...");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        jPanel4.add(addButton, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 6, 5);
+        userOptions.add(jPanel4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        jPanel1.add(userOptions, gridBagConstraints);
 
         getContentPane().add(jPanel1);
 
@@ -148,9 +218,18 @@ public class InventoryDisplay extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
+    private void brandFilterTextFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandFilterTextFActionPerformed
+        setRowFilter("(" + brandFilterTextF.getText() + ")", 0);
+    }//GEN-LAST:event_brandFilterTextFActionPerformed
+  
     private void deviceFilterTextFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deviceFilterTextFActionPerformed
         setRowFilter("(" + deviceFilterTextF.getText() + ")", 1);
     }//GEN-LAST:event_deviceFilterTextFActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        new AddProductFrame(productList, this).setVisible(true);
+    }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,11 +268,18 @@ public class InventoryDisplay extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JLabel addLabel;
+    private javax.swing.JLabel brandFilterLabel;
+    private javax.swing.JTextField brandFilterTextF;
+    private javax.swing.JLabel deviceFilterLabel;
     private javax.swing.JTextField deviceFilterTextF;
     private javax.swing.JTable inventoryTable;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel userOptions;
     // End of variables declaration//GEN-END:variables
 }
