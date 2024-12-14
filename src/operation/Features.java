@@ -2,13 +2,14 @@ package operation;
 
 import java.util.Arrays;
 import products.*;
+import userinterface.*;
 
 public class Features {
     private ArraysDataStruct productList;
     private final int STOCKMIN = 10; // adjust when necessary
 
-    public Features() {
-        productList = new ArraysDataStruct();
+    public Features(ArraysDataStruct productList) {
+        this.productList = productList;
     }
 
     public void addProduct(String brand, String deviceType, String model, 

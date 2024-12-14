@@ -58,5 +58,8 @@ public class ArraysDataStruct {
     public int getLength() {
         return size; 
     }
-
+    
+    public Product productAt(int index) {   //return the product at the specified index
+        return productList[index];
+    }
 }

@@ -2,24 +2,36 @@ package main;
 
 import operation.*;
 import products.*;
+import userinterface.*;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        Features features = new Features();
-        SortingAlgorithms sorter = new SortingAlgorithms();
-        ArraysDataStruct arrayOperations = new ArraysDataStruct();
-        Product products;
-        int key; //search key
+    
 
+    public static void main(String[] args) {
+        ArraysDataStruct productList = new ArraysDataStruct();
+        Features features = new Features(productList);
+        SortingAlgorithms sorter = new SortingAlgorithms();
+        Product products;
+        InventoryDisplay inventoryGUI =new InventoryDisplay(productList);
+        int key; //search key
+        int index=0;
+        
+        
+        //Start GUI
+        inventoryGUI.setVisible(true);
+        
         Scanner scanner = new Scanner(System.in);
         
         features.addProduct("Mac Pro", "Laptop", "Model", 50000, 
         20, "Available", 69); 
+        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());   //add to table row
         features.addProduct("Nokia", "Cellphone", "3210", 5000, 
         10, "Available", 3); 
+        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());
         features.addProduct("IPad", "Tablet", "Model", 30000, 
         5, "Available", 7); 
+        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());
         
         int choice;
         do {
@@ -63,6 +75,7 @@ public class Main {
                     System.out.print("Enter Reference Number: ");
                     int refNum = scanner.nextInt();
                     features.addProduct(brand, deviceType, model, price, quantity, status, refNum);
+                    inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());   
                     break;
 
                 case 2:

@@ -4,21 +4,43 @@
  */
 package userinterface;
 
+import javax.swing.table.DefaultTableModel;
+import operation.*;
+import products.*;
+
 /**
  *
  * @author Juan Miguel
  */
-public class inventoryDisplay extends javax.swing.JFrame {
-
+public class InventoryDisplay extends javax.swing.JFrame {
+    private String[] Test = {"A", "b", "c", "d", "e", "f", "g"};
+    private ArraysDataStruct productList;
+    
+    DefaultTableModel defaultModel = new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+        },
+        new String [] {
+            "Brand", "Device Type", "Model", "Price(₱)", "Quantity", "Status", "ReferenceNo."
+        }
+    );
     /**
      * Creates new form inventoryDisplay
      */
-    public inventoryDisplay() {
-        initComponents();
+    public InventoryDisplay(ArraysDataStruct productList) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                initComponents();
+            }
+        });
+        this.productList = productList;
     }
     
-    public void initTable() {
-    
+    public void addTableRow(Object objArr[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                defaultModel.addRow(objArr);
+            }
+        });
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,34 +57,19 @@ public class inventoryDisplay extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventory List");
+        setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
+        jPanel1.setRequestFocusEnabled(false);
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(600, 600));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Brand", "Device Type", "Model", "Price (₱)", "Quantity", "Status", "Reference Number"
-            }
-        ));
-        jTable1.setPreferredSize(new java.awt.Dimension(500, 80));
+        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTable1.setModel(defaultModel);
+        jTable1.setPreferredSize(new java.awt.Dimension(700, 350));
+        jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(350);
-        }
 
         jPanel1.add(jScrollPane1, new java.awt.GridBagConstraints());
 
@@ -89,20 +96,21 @@ public class inventoryDisplay extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(inventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(inventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(inventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(inventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventoryDisplay.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new inventoryDisplay().setVisible(true);
+                new InventoryDisplay(null).setVisible(true);
             }
         });
     }
