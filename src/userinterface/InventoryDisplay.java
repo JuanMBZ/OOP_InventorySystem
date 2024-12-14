@@ -78,8 +78,7 @@ public class InventoryDisplay extends javax.swing.JFrame {
         }
         sorter.setRowFilter(rf);
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,6 +102,7 @@ public class InventoryDisplay extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         addLabel = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventory List");
@@ -218,10 +218,11 @@ public class InventoryDisplay extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void brandFilterTextFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brandFilterTextFActionPerformed
         setRowFilter("(" + brandFilterTextF.getText() + ")", 0);
     }//GEN-LAST:event_brandFilterTextFActionPerformed
-
+  
     private void deviceFilterTextFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deviceFilterTextFActionPerformed
         setRowFilter("(" + deviceFilterTextF.getText() + ")", 1);
     }//GEN-LAST:event_deviceFilterTextFActionPerformed
