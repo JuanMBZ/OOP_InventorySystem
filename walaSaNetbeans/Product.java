@@ -26,10 +26,24 @@ class Product {
 		    " Reference Number: " + refNum +
             "\nBrand: " + brand +
             " Model: " + model +
-            "\nPrice" + price +
+            "\nPrice: " + price +
             " Quantity: " + quantity +
             " Status: " + status ;
     }
+    public String printOutputFile(){
+        return brand+","+deviceType +","+model+","+price+","+quantity+","+status+","+refNum;
+    }
+    @Override
+    public String toString() {
+    return "Device Type: " + deviceType +
+           ", Reference Number: " + refNum +
+           ", Brand: " + brand +
+           ", Model: " + model +
+           ", Price: " + price +
+           ", Quantity: " + quantity +
+           ", Status: " + status;
+    }
+
 
     public void setStatus(String status) {
         this.status = status;
@@ -37,7 +51,7 @@ class Product {
     public void setCurrentQuantity(int soldQty) {
         this.currentQuantity = this.quantity - soldQty;
     }
-
+    
 
     public int getQuantity() {
         return quantity;
@@ -57,6 +71,7 @@ class Product {
     public int getCurrentQuantity(){
 	    return quantity - currentQuantity;
     }
+   
 
 
 

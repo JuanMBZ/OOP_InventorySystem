@@ -7,20 +7,15 @@ public class Main {
         ArraysDataStruct arrayOperations = new ArraysDataStruct();
         Product products;
         int key; //search key
+        String inputFile = "input.in";
+        String outputFile = "output.out";
 
         Scanner scanner = new Scanner(System.in);
-        
-        features.addProduct("Mac Pro", "Laptop", "Model", 50000, 
-        20, "Available", 69); 
-        features.addProduct("Nokia", "Cellphone", "3210", 5000, 
-        10, "Available", 3); 
-        features.addProduct("IPad", "Tablet", "Model", 30000, 
-        5, "Available", 7); 
-        
+        features.readDataFromFile(inputFile,features);
+
         int choice;
         do {
-            
-            System.out.println("\n--- Lelectrunic Inventory System ---");
+            System.out.println("\n--- Electronic Inventory System ---");
             System.out.println("0. Exit");
             System.out.println("1. Add Product");
             System.out.println("2. Remove Product");
@@ -98,6 +93,7 @@ public class Main {
                     break;
                 case 5:
                     features.printAllProducts();
+                    features.printToFile(outputFile, features);
                     break;
 
                 case 6:
