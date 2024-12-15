@@ -1,22 +1,4 @@
-
 import java.util.Comparator;
-
-
-class SortbyRefNo implements Comparator<Product> {  //Used for sorting products by refno
-    public int compare(Product a, Product b) {
-        if(a == null || b == null)  //kung di puno yung array
-            return 0;
-        return a.getRefNum() - b.getRefNum();
-    }
-}
-
-class SortbyDeviceType implements Comparator<Product> {  //Used for sorting products by device type
-    public int compare(Product a, Product b) {
-        if(a == null || b == null)  //kung di puno yung array
-            return 0;
-        return a.getDeviceType().compareTo(b.getDeviceType());
-    }
-}
 
 class SortingAlgorithms extends ArraysDataStruct {
 
@@ -114,3 +96,18 @@ class SortingAlgorithms extends ArraysDataStruct {
     }
 }
 
+class SortbyRefNo implements Comparator<Product> {  //Used for sorting products by refno
+    public int compare(Product a, Product b) {
+        if(a == null || b == null)  //kung di puno yung array
+            return 0;
+        return a.getRefNum() - b.getRefNum();
+    }
+}
+
+class SortbyDeviceType implements Comparator<Product> {  //Used for sorting products by device type
+    public int compare(Product a, Product b) {
+        if(a == null || b == null)  //kung di puno yung array
+            return 0;
+        return a.getDeviceType().compareTo(b.getDeviceType());
+    }
+}

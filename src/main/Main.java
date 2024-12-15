@@ -16,12 +16,13 @@ public class Main {
         InventoryDisplay inventoryGUI =new InventoryDisplay(productList);
         int key; //search key
         int index=0;
-        
+        String inputFile = "../walaSaNetbeans/inventory.in";
+        String outputFile = inputFile;
+
+        Scanner scanner = new Scanner(System.in);
         
         //Start GUI
         inventoryGUI.setVisible(true);
-        
-        Scanner scanner = new Scanner(System.in);
         
         features.addProduct("Mac Pro", "Laptop", "Model", 50000, 
         20, "Available", 69); 
@@ -49,7 +50,6 @@ public class Main {
             System.out.println("9. Total Sales (Automatic)");
             System.out.println("10. Sort by Reference Number");
             System.out.println("11. Sort by Device Type");
-            System.out.println("12. Save Inventory List to textfile");
             
             System.out.print("Erabe kono yarou: ");
             choice = scanner.nextInt();
@@ -116,6 +116,7 @@ public class Main {
                     break;
                 case 5:
                     features.printAllProducts();
+                    features.printToFile(outputFile);
                     break;
 
                 case 6:
@@ -146,9 +147,6 @@ public class Main {
                     features.sortProductsByDeviceType();
                     System.out.println("Products sorted by Device Type.");
                     break;
-                
-                case 12:
-                    
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }

@@ -1,5 +1,6 @@
 package operation;
 
+import java.io.*;
 import java.util.Arrays;
 import products.*;
 import userinterface.*;
@@ -107,4 +108,47 @@ public class Features {
         Arrays.sort(productList.getList(), new SortbyDeviceType());
     }
     
+    public void readDataFromFile(String fileName, Features features){
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) 
+        {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
+                String[] data = line.split(",");
+                if (data.length != 7) {
+                    System.err.println("Invalid line format: " + line);
+                continue; // Skip invalid lines
+                }
+                try
+                {
+                    String brand = data[0].trim();
+                    String deviceType = data[1].trim();
+                    String model = data[2].trim();
+                    double price = Double.parseDouble(data[3].trim());
+                    int quantity = Integer.parseInt(data[4].trim());
+                    String status = data[5].trim();
+                    int refNum = Integer.parseInt(data[6].trim());
+                    addProduct(brand, deviceType, model, price, quantity, status, refNum);
+                }
+                catch (NumberFormatException e){
+                }
+            }
+        }
+        catch (IOException e) {
+        }
+    }
+    public void printToFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            Product products[] = productList.getProductList();
+            for (Product product : products) {
+                if (product != null) { 
+                    writer.write(product.printOutputFile());
+                    writer.newLine(); 
+                }
+            }
+        } 
+        catch (IOException e) {
+        }
+    }
 }

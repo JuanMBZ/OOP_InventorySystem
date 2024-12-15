@@ -84,4 +84,19 @@ public class Product {
     public Object[] getObjArr() {
         return objArr;
     }
+    
+    public String printOutputFile(){
+        return brand+","+deviceType +","+model+","+price+","+quantity+","+status+","+refNum;
+    }
+    
+    @Override
+    public String toString() {
+    return "Device Type: " + deviceType +
+           ", Reference Number: " + refNum +
+           ", Brand: " + brand +
+           ", Model: " + model +
+           ", Price: " + price +
+           ", Quantity: " + quantity +
+           ", Status: " + status;
+    }
 }
