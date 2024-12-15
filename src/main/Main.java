@@ -4,36 +4,29 @@ import operation.*;
 import products.*;
 import userinterface.*;
 import java.util.Scanner;
+import java.io.*;
 
 public class Main {
     
 
-    public static void main(String[] args) {
-        ArraysDataStruct productList = new ArraysDataStruct();
-        Features features = new Features(productList);
-        SortingAlgorithms sorter = new SortingAlgorithms();
-        Product products;
-        InventoryDisplay inventoryGUI =new InventoryDisplay(productList);
+    public static void main(String[] args) throws IOException {
+        
         int key; //search key
         int index=0;
-        String inputFile = "../walaSaNetbeans/inventory.in";
-        String outputFile = inputFile;
-
+        String inputFile = "./src/database/inventory.in";
+        String dataFile = "./src/database/inventory.in";
         Scanner scanner = new Scanner(System.in);
-        
+        ArraysDataStruct productList = new ArraysDataStruct();
+        Features features = new Features(productList, dataFile);
+        SortingAlgorithms sorter = new SortingAlgorithms();
+        Product products;
+        //read from data file
+        features.readDataFromFile(inputFile);
         //Start GUI
+        InventoryDisplay inventoryGUI =new InventoryDisplay(productList, features);
         inventoryGUI.setVisible(true);
-        
-        features.addProduct("Mac Pro", "Laptop", "Model", 50000, 
-        20, "Available", 69); 
-        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());   //add to table row
-        features.addProduct("Nokia", "Cellphone", "3210", 5000, 
-        10, "Available", 3); 
-        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());
-        features.addProduct("IPad", "Tablet", "Model", 30000, 
-        5, "Available", 7); 
-        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());
-        
+
+
         int choice;
         do {
             
@@ -75,7 +68,7 @@ public class Main {
                     System.out.print("Enter Reference Number: ");
                     int refNum = scanner.nextInt();
                     features.addProduct(brand, deviceType, model, price, quantity, status, refNum);
-                    inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());   
+                    inventoryGUI.addTableRow(productList.productAt(productList.getLength()).getObjArr());   
                     break;
 
                 case 2:
@@ -116,7 +109,7 @@ public class Main {
                     break;
                 case 5:
                     features.printAllProducts();
-                    features.printToFile(outputFile);
+                    features.printToFile(dataFile);
                     break;
 
                 case 6:

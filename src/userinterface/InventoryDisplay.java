@@ -18,6 +18,7 @@ import operation.*;
 public class InventoryDisplay extends javax.swing.JFrame {
     private String[] Test = {"A", "b", "c", "d", "e", "f", "g"};
     private ArraysDataStruct productList;
+    private Features features;
     TableRowSorter<TableModel> sorter;
     
     DefaultTableModel inventoryTableModel = new DefaultTableModel(new Object [][] {},
@@ -39,7 +40,7 @@ public class InventoryDisplay extends javax.swing.JFrame {
     /**
      * Creates new form inventoryDisplay
      */
-    public InventoryDisplay(ArraysDataStruct productList) {
+    public InventoryDisplay(ArraysDataStruct productList, Features features) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 initComponents();
@@ -48,6 +49,11 @@ public class InventoryDisplay extends javax.swing.JFrame {
             }
         });
         this.productList = productList;
+        this.features = features;
+        
+        for(int i=0; i<productList.getLength(); i++) {      //Add products already in list to table
+            addTableRow(productList.productAt(i).getObjArr());
+        }
     }
     
     public void addTableRow(Object objArr[]) {
@@ -103,6 +109,9 @@ public class InventoryDisplay extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         addLabel = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        saveLabel = new javax.swing.JLabel();
+        saveButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventory List");
@@ -189,7 +198,9 @@ public class InventoryDisplay extends javax.swing.JFrame {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         addLabel.setText("Add a new Product to Inventory");
-        jPanel4.add(addLabel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(addLabel, gridBagConstraints);
 
         addButton.setText("Add...");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +217,28 @@ public class InventoryDisplay extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(6, 5, 6, 5);
         userOptions.add(jPanel4, gridBagConstraints);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        saveLabel.setText("Save changes to data file");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        jPanel5.add(saveLabel, gridBagConstraints);
+
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel5.add(saveButton, gridBagConstraints);
+
+        userOptions.add(jPanel5, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -229,6 +262,10 @@ public class InventoryDisplay extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         new AddProductFrame(productList, this).setVisible(true);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        features.printToFile(features.getDataFile());
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,7 +298,7 @@ public class InventoryDisplay extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InventoryDisplay(null).setVisible(true);
+                new InventoryDisplay(null, null).setVisible(true);
             }
         });
     }
@@ -278,7 +315,10 @@ public class InventoryDisplay extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JLabel saveLabel;
     private javax.swing.JPanel userOptions;
     // End of variables declaration//GEN-END:variables
 }

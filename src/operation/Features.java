@@ -8,9 +8,11 @@ import userinterface.*;
 public class Features {
     private ArraysDataStruct productList;
     private final int STOCKMIN = 10; // adjust when necessary
+    private String dataFile;
 
-    public Features(ArraysDataStruct productList) {
+    public Features(ArraysDataStruct productList, String dataFile) {
         this.productList = productList;
+        this.dataFile = dataFile;
     }
 
     public void addProduct(String brand, String deviceType, String model, 
@@ -108,7 +110,7 @@ public class Features {
         Arrays.sort(productList.getList(), new SortbyDeviceType());
     }
     
-    public void readDataFromFile(String fileName, Features features){
+    public void readDataFromFile(String fileName){
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) 
         {
             String line;
@@ -140,7 +142,7 @@ public class Features {
     }
     public void printToFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            Product products[] = productList.getProductList();
+            Product products[] = productList.getList();
             for (Product product : products) {
                 if (product != null) { 
                     writer.write(product.printOutputFile());
@@ -150,5 +152,9 @@ public class Features {
         } 
         catch (IOException e) {
         }
+    }
+    
+    public String getDataFile() {
+        return dataFile;
     }
 }
