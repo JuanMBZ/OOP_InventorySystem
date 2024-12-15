@@ -134,11 +134,9 @@ class Features{
     public void printToFile(String fileName,Features features) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             Product[] products = features.getProductList().getProductList();
-            writer.append("Displaying All Products");
-            writer.newLine(); 
             for (Product product : products) {
                 if (product != null) { 
-                    writer.write(product.getProduct());
+                    writer.write(product.printOutputFile());
                     writer.newLine(); 
                 }
             }
