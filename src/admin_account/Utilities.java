@@ -92,5 +92,37 @@ public abstract class Utilities {
 
         Utilities.searchAdminAccount(test_file, username, password);
     }
-
+    
+    public static boolean addAdminAccount(ArrayList<AdminAccount> accounts, String newUsername, String newPassword) {
+        for(AdminAccount current_account: accounts) {   //check if new username already exists
+            if(current_account.getUsername().equals(newUsername))
+                return false;
+        }
+        accounts.add(new AdminAccount(newUsername, newPassword, accounts.get(accounts.size()-1).getAccountID()+1));
+        return true;
+    }
+    
+    public static boolean deleteAdminAccount(ArrayList<AdminAccount> accounts, String deleteUsername) {
+        for(AdminAccount current_account: accounts) {   //find username in accounts already exists
+            if(current_account.getUsername().equals(deleteUsername)) {
+                accounts.remove(current_account);
+                return true;
+            }    
+        }
+        return false;
+    }
+    
+    public static boolean checkEmployeeCredentials(String filepath, String username, String password) {
+        try {
+            File input_file = new File(filepath);
+            Scanner input_scanner = new Scanner(input_file);
+            String employee_info[] =  input_scanner.nextLine().split(", ", 2);
+            if(username.equals(employee_info[0]) && password.equals(employee_info[1]))
+                return true;
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

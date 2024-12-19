@@ -9,23 +9,27 @@ import java.io.*;
 public class Main {
     
 
-    public static void main(String[] args) throws IOException {
-        
-        int key; //search key
-        int index=0;
-        String inputFile = "./src/database/inventory.in";
+    public static void main(String[] args) throws IOException, InterruptedException {
+        int key;
         String dataFile = "./src/database/inventory.in";
+        String userAuth;
+        
+        //Log in
+        LogInFrame logIn = new LogInFrame();
+        logIn.setVisible(true);
+        logIn.makeWait();
+        userAuth = logIn.getUserAuth();
+        if(userAuth.equals("cancel"))
+            return;
         Scanner scanner = new Scanner(System.in);
         ArraysDataStruct productList = new ArraysDataStruct();
         Features features = new Features(productList, dataFile);
-        SortingAlgorithms sorter = new SortingAlgorithms();
         Product products;
         //read from data file
-        features.readDataFromFile(inputFile);
+        features.readDataFromFile(dataFile);
         //Start GUI
-        InventoryDisplay inventoryGUI =new InventoryDisplay(productList, features);
+        InventoryDisplay inventoryGUI =new InventoryDisplay(productList, features, userAuth);
         inventoryGUI.setVisible(true);
-
 
         int choice;
         do {
@@ -44,6 +48,7 @@ public class Main {
             System.out.println("10. Sort by Reference Number");
             System.out.println("11. Sort by Device Type");
             
+            System.out.println("Product List size: " + productList.getLength());    //testing
             System.out.print("Erabe kono yarou: ");
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline

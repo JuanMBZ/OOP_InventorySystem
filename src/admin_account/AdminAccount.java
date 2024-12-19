@@ -1,5 +1,8 @@
 package admin_account;
 
+import static admin_account.Utilities.logInTerminal_UI;
+import java.util.ArrayList;
+
 public class AdminAccount{
     private String username;
     private String password;
@@ -36,5 +39,14 @@ public class AdminAccount{
     public int getAccountID() {
         return this.account_id;
     }
-
+    
+    public static void main(String args[]) {
+        String accounts_filepath = "./src/database/admin_accounts.txt";
+        ArrayList<AdminAccount> accounts = Utilities.accessAdminAccounts(accounts_filepath);
+        Utilities.logInTerminal_UI(accounts_filepath);
+        Utilities.addAdminAccount(accounts, "Test", "Pass");
+        //Utilities.deleteAdminAccount(accounts, "Juan");
+        System.out.println("Employee = "+ Utilities.checkEmployeeCredentials("./src/database/employee.txt", "employee", "password"));
+        Utilities.saveAdminAccounts(accounts, accounts_filepath);
+    }
 }

@@ -110,7 +110,7 @@ public class Features {
         Arrays.sort(productList.getList(), new SortbyDeviceType());
     }
     
-    public void readDataFromFile(String fileName){
+    public boolean readDataFromFile(String fileName){
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) 
         {
             String line;
@@ -131,16 +131,20 @@ public class Features {
                     int quantity = Integer.parseInt(data[4].trim());
                     String status = data[5].trim();
                     int refNum = Integer.parseInt(data[6].trim());
+                    if(productList.checkEqualRefNum(refNum))
+                        continue;
                     addProduct(brand, deviceType, model, price, quantity, status, refNum);
                 }
                 catch (NumberFormatException e){
                 }
             }
+            return true;
         }
         catch (IOException e) {
+            return false;
         }
     }
-    public void printToFile(String fileName) {
+    public boolean printToFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             Product products[] = productList.getList();
             for (Product product : products) {
@@ -149,8 +153,10 @@ public class Features {
                     writer.newLine(); 
                 }
             }
+            return true;
         } 
         catch (IOException e) {
+            return false;
         }
     }
     

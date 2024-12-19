@@ -12,12 +12,17 @@ public class ArraysDataStruct {
         this.size = 0; 
     }
 
-    public void add(Product product) {
+    public boolean add(Product product) {
+        for(int i=0; i<size; i++) { //refnum is already used
+            if(product.getRefNum()==productList[i].getRefNum())
+                return false;
+        }
         if (size == productList.length) {
             // resize
             productList = Arrays.copyOf(productList, productList.length+1);
         }
         productList[size++] = product;
+        return true;
     }
 
     public boolean remove(String model) {
@@ -27,6 +32,22 @@ public class ArraysDataStruct {
 
         for (int i = 0; i < size; i++) {
             if (productList[i].getModel().compareTo(model) == 0) {
+                // shift elements to the left  
+                System.arraycopy(productList, i + 1, productList, i, size - i - 1);
+                productList[--size] = null; 
+                return true; // Successfully removed
+            }
+        }
+        return false; // Not found
+    }
+    
+    public boolean remove(int refNum) { //remove but with refNum
+        if (size == 0) {
+            return false; //empty
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (productList[i].getRefNum() == refNum) {
                 // shift elements to the left  
                 System.arraycopy(productList, i + 1, productList, i, size - i - 1);
                 productList[--size] = null; 
@@ -61,5 +82,12 @@ public class ArraysDataStruct {
    
     public Product productAt(int index) {   //return the product at the specified index
         return productList[index];
+    }
+    
+    public boolean checkEqualRefNum(int refNum) {
+        for(int i=0; i<size; i++)   
+            if(productList[i].getRefNum()==refNum)  //refnum is used
+                return true;
+        return false;
     }
 }

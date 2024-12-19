@@ -10,21 +10,30 @@ import operation.*;
  *
  * @author Juan Miguel
  */
-public class AddProductFrame extends javax.swing.JFrame {
+public class EditProductFrame extends javax.swing.JFrame {
     Object objArr[];
     boolean allGood[] = new boolean[7];
     ArraysDataStruct productList;
     InventoryDisplay inventoryList;
+    int oldRefNum;
     
     /**
      * Creates new form AddProductFrame
      */
-    public AddProductFrame(ArraysDataStruct productList, InventoryDisplay inventoryList) {
-        objArr = new Object[8];
+    public EditProductFrame(ArraysDataStruct productList, InventoryDisplay inventoryList, Product oldProduct) {
+        objArr = new Object[7];
         this.productList = productList;
         this.inventoryList = inventoryList;
+        oldRefNum = oldProduct.getRefNum();
         allGood[5] = true;  //set status
         initComponents();
+        brandTextF.setText(oldProduct.getBrand());
+        deviceTextF.setText(oldProduct.getDeviceType());
+        modelTextF.setText(oldProduct.getModel());
+        priceTextF.setText(String.valueOf(oldProduct.getPrice()));
+        qtyTextF.setText(String.valueOf(oldProduct.getQuantity()));
+        statusTextF.setText(oldProduct.getStatus());
+        refNumTextF.setText(String.valueOf(oldProduct.getRefNum()));
     }
     
     public boolean checkAllGood() {
@@ -84,18 +93,18 @@ public class AddProductFrame extends javax.swing.JFrame {
         confirmButton = new javax.swing.JButton();
         confirmButton.setEnabled(false);
         cancelButton = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel9.setVisible(false);
         refNumLabel = new javax.swing.JLabel();
         refNumLabel.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
+        jPanel1.setToolTipText("");
+        jPanel1.setName("Edit Product"); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("Enter the Product data in the corresponding Fields:");
+        jLabel1.setText("Edit the Product data in the corresponding Fields:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -273,19 +282,19 @@ public class AddProductFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 7;
         jPanel1.add(invalidRefNumLabel, gridBagConstraints);
 
-        addedPrice.setText("Added!");
+        addedPrice.setText("Edited!");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 4;
         jPanel1.add(addedPrice, gridBagConstraints);
 
-        addedDeviceType.setText("Added!");
+        addedDeviceType.setText("Edited!");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         jPanel1.add(addedDeviceType, gridBagConstraints);
 
-        addedModel.setText("Added!");
+        addedModel.setText("Edited!");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
@@ -297,19 +306,20 @@ public class AddProductFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 6;
         jPanel1.add(addedStatus, gridBagConstraints);
 
-        addedQty.setText("Added!");
+        addedQty.setText("Edited!");
+        addedQty.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
         jPanel1.add(addedQty, gridBagConstraints);
 
-        addedRefNum.setText("Added!");
+        addedRefNum.setText("Edited!");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 7;
         jPanel1.add(addedRefNum, gridBagConstraints);
 
-        addedBrand.setText("Added!");
+        addedBrand.setText("Edited!");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -339,14 +349,6 @@ public class AddProductFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 4);
         jPanel1.add(cancelButton, gridBagConstraints);
-
-        jLabel9.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel9.setText("Invalid Input(s)");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel9, gridBagConstraints);
 
         refNumLabel.setForeground(new java.awt.Color(255, 0, 0));
         refNumLabel.setText("Ref Num is used");
@@ -452,17 +454,11 @@ public class AddProductFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_refNumTextFActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        try {
-            objArr[7] = (double)((double)objArr[3] * (int)objArr[4]);
-            objArr[5] = statusTextF.getText();
-            productList.add(new Product(objArr));
-            inventoryList.addTableRow(objArr);
-            this.dispose();
-            inventoryList.tableRevalidate();
-        }
-        catch(Exception e) {
-            jLabel9.setVisible(true);
-        }
+        productList.remove(oldRefNum);
+        productList.add(new Product(objArr));
+        inventoryList.deleteRow(oldRefNum);
+        inventoryList.addTableRow(objArr);
+        this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -486,20 +482,23 @@ public class AddProductFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditProductFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddProductFrame(null, null).setVisible(true);
+                new EditProductFrame(null, null, null).setVisible(true);
             }
         });
     }
@@ -527,7 +526,6 @@ public class AddProductFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField modelTextF;
     private javax.swing.JTextField priceTextF;
