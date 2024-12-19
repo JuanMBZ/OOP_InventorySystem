@@ -9,6 +9,7 @@ public class Product {
     private String status= "";
     private String deviceType = "";
     private int refNum = 0;
+    private double totalPrice;
     private int currentQuantity = 0; //quantity after sold decrement each time
     private Object objArr[];    //para mapasa sa gui
 
@@ -19,17 +20,25 @@ public class Product {
         this.model = model;
         this.price = price;
         this.quantity = quantity;
-        this.status = status;
         this.refNum = refNum;
+        if(quantity>=10)
+            this.status = "Available";
+        else if(quantity>0)
+            this.status = "Running Out";
+        else if(quantity==0)
+            this.status = "Empty";
+        else
+            this.status = "Error";
         //For object array
-        objArr = new Object[7];
+        objArr = new Object[8];
         objArr[0] = brand;
         objArr[1] = deviceType;
         objArr[2] = model;
         objArr[3] = price;
         objArr[4] = quantity;
-        objArr[5] = status;
+        objArr[5] = this.status;
         objArr[6] = refNum;
+        objArr[7] = price*quantity;
     }
     
     public Product(Object objArr[]) {   //Constructor para sa user input sa GUI
@@ -40,6 +49,7 @@ public class Product {
         quantity = (int)objArr[4];
         status = (String)objArr[5];
         refNum = (int)objArr[6];
+        totalPrice = (double)((double)price) * ((int)quantity);
         this.objArr = objArr;
     }
 
@@ -60,7 +70,10 @@ public class Product {
     public void setCurrentQuantity(int soldQty) {
         this.currentQuantity = this.quantity - soldQty;
     }
-
+    public void setQuantity(int qty) {
+        quantity = qty;
+    }
+    
 
     public int getQuantity() {
         return quantity;
@@ -72,16 +85,41 @@ public class Product {
         return model;
     }
     public String getDeviceType(){
-	    return deviceType;
+        return deviceType;
     }
     public int getRefNum(){
-	    return refNum;
+        return refNum;
     }
     public int getCurrentQuantity(){
-	    return quantity - currentQuantity;
+        return quantity - currentQuantity;
+    }
+    public String getBrand() {
+        return brand;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public double getTotalPrice() {
+        totalPrice = price*quantity;
+        return totalPrice;
     }
     
     public Object[] getObjArr() {
         return objArr;
+    }
+    
+    public String printOutputFile(){
+        return brand+","+deviceType +","+model+","+price+","+quantity+","+status+","+refNum;
+    }
+    
+    @Override
+    public String toString() {
+    return "Device Type: " + deviceType +
+           ", Reference Number: " + refNum +
+           ", Brand: " + brand +
+           ", Model: " + model +
+           ", Price: " + price +
+           ", Quantity: " + quantity +
+           ", Status: " + status;
     }
 }

@@ -4,35 +4,33 @@ import operation.*;
 import products.*;
 import userinterface.*;
 import java.util.Scanner;
+import java.io.*;
 
 public class Main {
     
 
-    public static void main(String[] args) {
-        ArraysDataStruct productList = new ArraysDataStruct();
-        Features features = new Features(productList);
-        SortingAlgorithms sorter = new SortingAlgorithms();
-        Product products;
-        InventoryDisplay inventoryGUI =new InventoryDisplay(productList);
-        int key; //search key
-        int index=0;
+    public static void main(String[] args) throws IOException, InterruptedException {
+        int key;
+        String dataFile = "./src/database/inventory.in";
+        String userAuth;
         
-        
-        //Start GUI
-        inventoryGUI.setVisible(true);
-        
+        //Log in
+        LogInFrame logIn = new LogInFrame();
+        logIn.setVisible(true);
+        logIn.makeWait();
+        userAuth = logIn.getUserAuth();
+        if(userAuth.equals("cancel"))
+            return;
         Scanner scanner = new Scanner(System.in);
-        
-        features.addProduct("Mac Pro", "Laptop", "Model", 50000, 
-        20, "Available", 69); 
-        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());   //add to table row
-        features.addProduct("Nokia", "Cellphone", "3210", 5000, 
-        10, "Available", 3); 
-        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());
-        features.addProduct("IPad", "Tablet", "Model", 30000, 
-        5, "Available", 7); 
-        inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());
-        
+        ArraysDataStruct productList = new ArraysDataStruct();
+        Features features = new Features(productList, dataFile);
+        Product products;
+        //read from data file
+        features.readDataFromFile(dataFile);
+        //Start GUI
+        InventoryDisplay inventoryGUI =new InventoryDisplay(productList, features, userAuth);
+        inventoryGUI.setVisible(true);
+
         int choice;
         do {
             
@@ -49,8 +47,8 @@ public class Main {
             System.out.println("9. Total Sales (Automatic)");
             System.out.println("10. Sort by Reference Number");
             System.out.println("11. Sort by Device Type");
-            System.out.println("12. Save Inventory List to textfile");
             
+            System.out.println("Product List size: " + productList.getLength());    //testing
             System.out.print("Erabe kono yarou: ");
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -75,7 +73,7 @@ public class Main {
                     System.out.print("Enter Reference Number: ");
                     int refNum = scanner.nextInt();
                     features.addProduct(brand, deviceType, model, price, quantity, status, refNum);
-                    inventoryGUI.addTableRow(productList.productAt(index++).getObjArr());   
+                    inventoryGUI.addTableRow(productList.productAt(productList.getLength()).getObjArr());   
                     break;
 
                 case 2:
@@ -116,6 +114,7 @@ public class Main {
                     break;
                 case 5:
                     features.printAllProducts();
+                    features.printToFile(dataFile);
                     break;
 
                 case 6:
@@ -146,9 +145,6 @@ public class Main {
                     features.sortProductsByDeviceType();
                     System.out.println("Products sorted by Device Type.");
                     break;
-                
-                case 12:
-                    
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
