@@ -42,7 +42,6 @@ public class AddFileFrame extends javax.swing.JFrame {
         filepathTextF = new javax.swing.JTextField();
         titleLabel = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
-        overwriteButton = new javax.swing.JButton();
         appendButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel2.setVisible(false);
@@ -89,13 +88,6 @@ public class AddFileFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         jPanel1.add(cancelButton, gridBagConstraints);
-
-        overwriteButton.setText("Overwrite Current List");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel1.add(overwriteButton, gridBagConstraints);
 
         appendButton.setText("Append to Current List");
         appendButton.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +140,6 @@ public class AddFileFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton overwriteButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

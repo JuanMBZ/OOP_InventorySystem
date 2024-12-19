@@ -143,6 +143,7 @@ public class AdjustProductFrame extends javax.swing.JFrame {
         product.setQuantity((int) stockSpinner.getValue());
         inventoryTable.setTableValueAt(product.getQuantity(), selected, 4);
         inventoryTable.setTableValueAt(product.getTotalPrice(), selected, 7);
+        inventoryTable.setTableValueAt(product.getStatus(), selected, 5);
         this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 

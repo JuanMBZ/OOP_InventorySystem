@@ -50,6 +50,7 @@ public class Product {
         status = (String)objArr[5];
         refNum = (int)objArr[6];
         totalPrice = (double)((double)price) * ((int)quantity);
+        objArr[7] = totalPrice;
         this.objArr = objArr;
     }
 
@@ -97,6 +98,14 @@ public class Product {
         return brand;
     }
     public String getStatus() {
+        if(quantity>=10)
+            this.status = "Available";
+        else if(quantity>0)
+            this.status = "Running Out";
+        else if(quantity==0)
+            this.status = "Empty";
+        else
+            this.status = "Error";
         return status;
     }
     public double getTotalPrice() {

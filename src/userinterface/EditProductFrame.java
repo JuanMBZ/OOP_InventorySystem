@@ -12,18 +12,19 @@ import operation.*;
  */
 public class EditProductFrame extends javax.swing.JFrame {
     Object objArr[];
-    boolean allGood[] = new boolean[7];
+    boolean allGood[] = new boolean[8];
     ArraysDataStruct productList;
     InventoryDisplay inventoryList;
     int oldRefNum;
-    
+    Product oldProduct;
     /**
      * Creates new form AddProductFrame
      */
     public EditProductFrame(ArraysDataStruct productList, InventoryDisplay inventoryList, Product oldProduct) {
-        objArr = new Object[7];
+        objArr = new Object[8];
         this.productList = productList;
         this.inventoryList = inventoryList;
+        this.oldProduct = oldProduct;
         oldRefNum = oldProduct.getRefNum();
         allGood[5] = true;  //set status
         initComponents();
@@ -455,9 +456,12 @@ public class EditProductFrame extends javax.swing.JFrame {
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         productList.remove(oldRefNum);
-        productList.add(new Product(objArr));
+        Product newProduct = new Product(brandTextF.getText(), deviceTextF.getText(), modelTextF.getText(), Double.parseDouble(priceTextF.getText()), Integer.parseInt(qtyTextF.getText()), statusTextF.getText(), Integer.parseInt(refNumTextF.getText()));
+        System.out.println(newProduct.getStatus() + " Status");
+        productList.add(newProduct);
         inventoryList.deleteRow(oldRefNum);
-        inventoryList.addTableRow(objArr);
+        inventoryList.addTableRow(newProduct.getObjArr());
+        
         this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
